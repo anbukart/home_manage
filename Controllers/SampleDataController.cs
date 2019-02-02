@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using EFGetStarted.AspNetCore.NewDb.Models;
 
 namespace HomeManage.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
+        private AppDbContext _appDbContext;
+
+        public SampleDataController(AppDbContext appDbContext)
+        {
+            this._appDbContext = appDbContext;
+        }
         private static string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -24,6 +31,15 @@ namespace HomeManage.Controllers
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             });
+        }
+
+        [HttpGet("[action]")]
+        public int PeopleCount()
+        {
+            var count = 0;
+            count = _appDbContext.People.Count();
+
+            return count;
         }
 
         public class WeatherForecast

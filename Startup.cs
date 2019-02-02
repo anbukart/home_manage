@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using EFGetStarted.AspNetCore.NewDb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HomeManage
 {
@@ -27,6 +29,10 @@ namespace HomeManage
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            // EF core service
+            var connection = "Data Source=homemanage.db";
+            services.AddDbContext<AppDbContext>(options => options.UseSqlite(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
